@@ -1,0 +1,18 @@
+while true; 
+
+do
+
+if [ $(grep -m 1 vivo /var/hosts | awk '{print $2}') = "menuvivofibra.br" ]; 
+then
+    mount -o remount rw /;
+    iptables -D INPUT_ACL -i ppp0.1 -p tcp -m tcp --dport 80 -j DROP;
+    iptables -D INPUT_ACL -i ppp0.1 -p tcp -m tcp --dport 443 -j DROP;
+    iptables -D INPUT_ACL -i ppp0.1 -p icmp -m icmp --icmp-type 8 -j DROP;
+    cp /etc/hosts /var/hosts;
+    mount -o remount ro /;
+fi
+
+sleep 60s;
+
+done
+
